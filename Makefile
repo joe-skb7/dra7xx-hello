@@ -10,9 +10,9 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 CFLAGS = -Wall -Werror -O2 -nostdlib -nostartfiles -ffreestanding -Iinclude \
 	-DCONFIG_BOOT=$(BOOT)
 OBJS =	src/start.o			\
+	src/main.o			\
 	src/board.o			\
 	src/common.o			\
-	src/main.o			\
 	src/serial.o
 LDS = ld/dra7xx.lds
 LDS_GEN = ld/dra7xx-gen.lds
