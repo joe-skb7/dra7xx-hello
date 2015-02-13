@@ -10,7 +10,6 @@ SECTIONS
 {
 	.text :
 	{
-		__start = .;
 		src/start.o	(.text*)
 		*(.text*)
 	} >.sram
