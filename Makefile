@@ -41,4 +41,4 @@ $(LDS_GEN): $(LDS)
 clean:
 	rm -f src/*.o $(APP).elf $(APP).bin $(APP).list MLO $(LDS_GEN)
 
-.PHONY: all clean
+.PHONY: default clean
