@@ -9,9 +9,6 @@ extern char __bss_start[], __bss_end[];
 
 static void sys_init(void)
 {
-	/* Set the stack pointer */
-	asm volatile("mov sp, %0\n" : : "r"(CONFIG_STACK_ADDR));
-
 	/* Clear the BSS */
 	memset(__bss_start, 0, __bss_end - __bss_start);
 }
