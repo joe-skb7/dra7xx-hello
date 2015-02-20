@@ -10,8 +10,7 @@
 
 #elif (CONFIG_BOOT == 2)	/* NOR (XIP) */
 
-#define CONFIG_SRAM_BASE		0x08000000
-#define CONFIG_SDRAM_BASE		0x08100000
+#define CONFIG_FLASH_BASE		0x08000000
 
 #else
 
