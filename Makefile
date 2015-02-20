@@ -22,7 +22,6 @@ TEXT_BASE := $(shell build/get-param.sh SRAM_BASE include/config.h 1)
 LDS = ld/dra7xx.lds
 LDS_GEN = ld/dra7xx-gen.lds
 else
-TEXT_BASE := $(shell build/get-param.sh FLASH_BASE include/config.h 1)
 LDS = ld/dra7xx-nor.lds
 LDS_GEN = ld/dra7xx-nor-gen.lds
 endif
