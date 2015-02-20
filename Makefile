@@ -30,6 +30,10 @@ endif
 default: $(APP).bin
 
 MLO: $(APP).bin
+	@if [ $(BOOT) -ne 1 ]; then					\
+		echo "** Error: You don't need MLO for XIP boot";	\
+		exit 1;							\
+	fi
 	$(MKIMAGE) -T omapimage -a $(TEXT_BASE) -d $< $@
 
 $(APP).bin: $(OBJS) $(LDS_GEN)
