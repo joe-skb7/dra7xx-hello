@@ -14,4 +14,5 @@ cflags=$*
 echo "/* This file was generated automatically."	>$out
 echo " * Please do not modify it manually!"		>>$out
 echo " */"						>>$out
+echo							>>$out
 gcc -E -x c -Iinclude $cflags $in | grep -v '^#'	>>$out
