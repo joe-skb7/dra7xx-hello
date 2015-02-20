@@ -14,10 +14,17 @@ OBJS =	src/start.o			\
 	src/board.o			\
 	src/common.o			\
 	src/serial.o
-LDS = ld/dra7xx.lds
-LDS_GEN = ld/dra7xx-gen.lds
+
 MKIMAGE ?= mkimage
 TEXT_BASE := $(shell build/get-param.sh SRAM_BASE include/config.h $(BOOT))
+
+ifeq (${BOOT}, 1)
+LDS = ld/dra7xx.lds
+LDS_GEN = ld/dra7xx-gen.lds
+else
+LDS = ld/dra7xx-nor.lds
+LDS_GEN = ld/dra7xx-nor-gen.lds
+endif
 
 default: $(APP).bin
 
@@ -39,6 +46,6 @@ $(LDS_GEN): $(LDS)
 	build/gen-lds.sh $(LDS) $(LDS_GEN) $(CFLAGS)
 
 clean:
-	rm -f src/*.o $(APP).elf $(APP).bin $(APP).list MLO $(LDS_GEN)
+	rm -f src/*.o $(APP).elf $(APP).bin $(APP).list MLO ld/*-gen.lds
 
 .PHONY: default clean
