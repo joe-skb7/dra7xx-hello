@@ -7,7 +7,7 @@ CC = $(CROSS_COMPILE)gcc
 LD = $(CROSS_COMPILE)ld
 OBJDUMP = $(CROSS_COMPILE)objdump
 OBJCOPY = $(CROSS_COMPILE)objcopy
-CFLAGS = -Wall -O2 -nostdlib -nostartfiles -ffreestanding -Iinclude \
+CFLAGS = -Wall -Os -nostdlib -nostartfiles -ffreestanding -Iinclude \
 	-g -fno-schedule-insns -fno-schedule-insns2 -DCONFIG_BOOT=$(BOOT)
 OBJS =	src/start.o			\
 	src/main.o			\
