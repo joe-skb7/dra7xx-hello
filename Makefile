@@ -7,9 +7,8 @@ CC = $(CROSS_COMPILE)gcc
 LD = $(CROSS_COMPILE)ld
 OBJDUMP = $(CROSS_COMPILE)objdump
 OBJCOPY = $(CROSS_COMPILE)objcopy
-CFLAGS = -Wall -Iinclude					\
-	-nostdlib -nostartfiles -ffreestanding			\
-	-g -Os -fno-schedule-insns -fno-schedule-insns2
+CFLAGS = -Wall -Iinclude -nostdlib -nostartfiles -ffreestanding		\
+	 -g -Os -fno-schedule-insns -fno-schedule-insns2
 OBJS =	src/start.o			\
 	src/main.o			\
 	src/board.o			\
