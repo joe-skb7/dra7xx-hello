@@ -1,5 +1,5 @@
-# 1: boot from SD
-# 2: boot from NOR (XIP)
+# 1: regular boot (e.g. from SD or eMMC)
+# 2: boot from NOR flash (XIP)
 BOOT ?= 1
 
 APP = dra7xx-hello

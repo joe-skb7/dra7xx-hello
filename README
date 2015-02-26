@@ -40,9 +40,6 @@ Build
 
    $ make MLO
 
-     ...or the same, but more strictly specified:
-
-   $ make BOOT=1 MLO
 
 2. Build for boot from NOR flash (XIP):
 
