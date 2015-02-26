@@ -9,8 +9,10 @@ extern char __bss_start[], __bss_end[];
 
 static void sys_init(void)
 {
+#ifndef CONFIG_NOR_BOOT
 	/* Clear the BSS */
 	memset(__bss_start, 0, __bss_end - __bss_start);
+#endif
 }
 
 static void init(void)
