@@ -7,7 +7,7 @@ CC = $(CROSS_COMPILE)gcc
 LD = $(CROSS_COMPILE)ld
 OBJDUMP = $(CROSS_COMPILE)objdump
 OBJCOPY = $(CROSS_COMPILE)objcopy
-CFLAGS = -Wall -Iinclude -DCONFIG_BOOT=$(BOOT)			\
+CFLAGS = -Wall -Iinclude					\
 	-nostdlib -nostartfiles -ffreestanding			\
 	-g -Os -fno-schedule-insns -fno-schedule-insns2
 OBJS =	src/start.o			\
@@ -23,6 +23,7 @@ TEXT_BASE := $(shell build/get-param.sh SRAM_BASE include/config.h 1)
 LDS = ld/dra7xx.lds
 LDS_GEN = ld/dra7xx-gen.lds
 else
+CFLAGS += -DCONFIG_NOR_BOOT
 LDS = ld/dra7xx-nor.lds
 LDS_GEN = ld/dra7xx-nor-gen.lds
 endif
