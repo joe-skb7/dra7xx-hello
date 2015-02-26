@@ -22,10 +22,12 @@ ifeq (${BOOT}, 1)
 TEXT_BASE := $(shell build/get-param.sh SRAM_BASE include/config.h 1)
 LDS = ld/dra7xx.lds
 LDS_GEN = ld/dra7xx-gen.lds
-else
+else ifeq (${BOOT}, 2)
 CFLAGS += -DCONFIG_NOR_BOOT
 LDS = ld/dra7xx-nor.lds
 LDS_GEN = ld/dra7xx-nor-gen.lds
+else
+$(error Wrong boot source number)
 endif
 
 default: $(APP).bin
