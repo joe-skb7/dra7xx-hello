@@ -62,29 +62,29 @@ static void board_mux_pins(void)
 		writel(pins[i].mode, pins[i].addr);
 }
 
-/* Do not add any prints in this function */
+static void board_enable_clock(uint32_t cm_src, uint32_t cm_dest,
+		uint32_t pm_dest)
+{
+	/* Force destination domain to be awake (SW_WKUP) */
+	clrsetbits(cm_dest, CD_CLKCTRL_CLKTRCTRL_MASK,
+			CD_CLKCTRL_CLKTRCTRL_SW_WKUP <<
+			CD_CLKCTRL_CLKTRCTRL_SHIFT);
+
+	/* Wait until power domain that encloses the destination domain is ON */
+	while ((readl(pm_dest) & 0x3) != 0x3)
+		;
+
+	/* Explicitly enable src module (functional clocks and power) */
+	clrsetbits(cm_src, MODULE_CLKCTRL_MODULEMODE_MASK,
+			MODULE_CLKCTRL_MODULEMODE_SW_EXPLICIT_EN <<
+			MODULE_CLKCTRL_MODULEMODE_SHIFT);
+}
+
 static void board_setup_clocks(void)
 {
 	/* Enable UART6 */
-
-	/* Turn IPU power on for UART6.
-	 *
-	 * POWERSTATE:       PM_IPU_PWRSTCTRL[0:1] = 0x3 (ON State)
-	 * AESSMEM_RETSTATE: PM_IPU_PWRSTCTRL[8] = 0x1 (Memory bank is retained
-	 *                   when domain is in RETENTION state)
-	 */
-	writel(0x103, PM_IPU_PWRSTCTRL);
-
-	clrsetbits(CM_IPU_CLKSTCTRL, CD_CLKCTRL_CLKTRCTRL_MASK,
-			CD_CLKCTRL_CLKTRCTRL_SW_WKUP <<
-			CD_CLKCTRL_CLKTRCTRL_SHIFT);
-	/* Wait until IPU power domain is ON-ACTIVE */
-	while ((readl(PM_IPU_PWRSTST) & 0x3) != 0x3);
-
-	clrsetbits(CM_IPU_UART6_CLKCTRL,
-			MODULE_CLKCTRL_MODULEMODE_MASK,
-			MODULE_CLKCTRL_MODULEMODE_SW_EXPLICIT_EN <<
-			MODULE_CLKCTRL_MODULEMODE_SHIFT);
+	board_enable_clock(CM_IPU_UART6_CLKCTRL, CM_IPU_CLKSTCTRL,
+			PM_IPU_PWRSTST);
 }
 
 void board_init(void)
