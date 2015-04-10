@@ -13,10 +13,8 @@
 #define UART6_TX		0x4a003770	/* pad name: MMC1_SDWP */
 #define UART6_RX		0x4a00376c	/* pad name: MMC1_SDCD */
 
-/* w/o this clock setup fails with 50% possibility */
-#define PM_SETTLE_TIME					10000 /* loops */
-
 #define PM_IPU_PWRSTCTRL				0x4ae06500
+#define PM_IPU_PWRSTST					0x4ae06504
 /* ipu.ckgen */
 #define CM_IPU_CLKSTCTRL				0x4a005540
 #define CM_IPU_UART6_CLKCTRL				0x4a005580
@@ -76,18 +74,17 @@ static void board_setup_clocks(void)
 	 *                   when domain is in RETENTION state)
 	 */
 	writel(0x103, PM_IPU_PWRSTCTRL);
-	ldelay(PM_SETTLE_TIME);
 
 	clrsetbits(CM_IPU_CLKSTCTRL, CD_CLKCTRL_CLKTRCTRL_MASK,
 			CD_CLKCTRL_CLKTRCTRL_SW_WKUP <<
 			CD_CLKCTRL_CLKTRCTRL_SHIFT);
-	ldelay(PM_SETTLE_TIME);
+	/* Wait until IPU power domain is ON-ACTIVE */
+	while ((readl(PM_IPU_PWRSTST) & 0x3) != 0x3);
 
 	clrsetbits(CM_IPU_UART6_CLKCTRL,
 			MODULE_CLKCTRL_MODULEMODE_MASK,
 			MODULE_CLKCTRL_MODULEMODE_SW_EXPLICIT_EN <<
 			MODULE_CLKCTRL_MODULEMODE_SHIFT);
-	ldelay(PM_SETTLE_TIME);
 }
 
 void board_init(void)
