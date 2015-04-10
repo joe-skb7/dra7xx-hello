@@ -64,19 +64,25 @@ static void board_mux_pins(void)
 		writel(pins[i].mode, pins[i].addr);
 }
 
+/* Do not add any prints in this function */
 static void board_setup_clocks(void)
 {
-	/* Turn on power to the IPU for UART6 */
+	/* Enable UART6 */
+
+	/* Turn IPU power on for UART6.
+	 *
+	 * POWERSTATE:       PM_IPU_PWRSTCTRL[0:1] = 0x3 (ON State)
+	 * AESSMEM_RETSTATE: PM_IPU_PWRSTCTRL[8] = 0x1 (Memory bank is retained
+	 *                   when domain is in RETENTION state)
+	 */
 	writel(0x103, PM_IPU_PWRSTCTRL);
 	ldelay(PM_SETTLE_TIME);
 
-	/* Do not add any prints in this function */
 	clrsetbits(CM_IPU_CLKSTCTRL, CD_CLKCTRL_CLKTRCTRL_MASK,
 			CD_CLKCTRL_CLKTRCTRL_SW_WKUP <<
 			CD_CLKCTRL_CLKTRCTRL_SHIFT);
 	ldelay(PM_SETTLE_TIME);
 
-	/* Enable UART6 */
 	clrsetbits(CM_IPU_UART6_CLKCTRL,
 			MODULE_CLKCTRL_MODULEMODE_MASK,
 			MODULE_CLKCTRL_MODULEMODE_SW_EXPLICIT_EN <<
