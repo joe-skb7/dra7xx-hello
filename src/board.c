@@ -36,6 +36,11 @@
 #define MODULE_CLKCTRL_MODULEMODE_HW_AUTO		1
 #define MODULE_CLKCTRL_MODULEMODE_SW_EXPLICIT_EN	2
 
+/* PM_<power_domain>_PWRSTST */
+#define PD_PWRSTST_POWERSTATEST_SHIFT			0
+#define PD_PWRSTST_POWERSTATEST_MASK			3
+#define PD_PWRSTST_POWERSTATEST_ON_ACTIVE		0x3
+
 struct pin {
 	uint32_t addr;
 	uint32_t mode;
@@ -69,7 +74,8 @@ static void board_enable_clock(uint32_t cm_src, uint32_t cm_dest,
 			CD_CLKCTRL_CLKTRCTRL_SHIFT);
 
 	/* Wait until power domain that encloses the destination domain is ON */
-	while ((readl(pm_dest) & 0x3) != 0x3)
+	while ((readl(pm_dest) & PD_PWRSTST_POWERSTATEST_MASK) !=
+			PD_PWRSTST_POWERSTATEST_ON_ACTIVE)
 		;
 
 	/* Explicitly enable src module (functional clocks and power) */
