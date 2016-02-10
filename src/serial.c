@@ -1,3 +1,5 @@
+/* Driver for NS16550 UART */
+
 #include <serial.h>
 #include <common.h>
 
