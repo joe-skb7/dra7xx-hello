@@ -34,6 +34,8 @@ MLO: $(APP).bin
 		echo "** Error: You don't need MLO for XIP boot";	\
 		exit 1;							\
 	fi
+	@echo
+	@echo "---> Making MLO..."
 	$(MKIMAGE) -T omapimage -a $(TEXT_BASE) -d $< $@
 
 $(APP).bin: $(OBJS) $(LDS_GEN)
