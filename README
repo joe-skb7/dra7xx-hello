@@ -3,11 +3,20 @@ Description
 
 This is bare-metal firmware intended for DRA752 ES1.0 SoC.
 It contains minimal code to initialize system and write some text to
-serial console (via UART6). Just insert SD card with MLO file from this project
-and boot from it (press "Reset" button or something like this).
+serial console (via UART1, but it can be changed to UART6).
+
+Just insert SD card with MLO file from this project and boot from it
+(press "Reset" button or something like this).
 
 Note that in case of NOR boot you can't modify .data and .bss sections from
 code, because you can't just write to NOR flash using STR instruction.
+
+
+UART number
+-----------
+
+One can choose which UART module to use in include/config.h.
+Change CONSOLE constant appropriately.
 
 
 Toolchain
