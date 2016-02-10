@@ -27,10 +27,12 @@ mkimage
 -------
 
 In order to boot from SD card or eMMC chip, MLO file must be created
-and placed into first partition (which must be FAT formatted).
+and placed into first partition (which must be formatted as FAT32).
+
 "mkimage" tool should be used to create MLO file. This tool can be
 found inside of your built "u-boot" directory or it can be installed like this:
-   $ sudo aptitude install u-boot-tools
+
+    $ sudo aptitude install u-boot-tools
 
 
 Build
@@ -51,7 +53,7 @@ Uploading images
 
 1. For boot from SD card or eMMC chip:
    just copy "MLO" file to the root directory of first partition (which must be
-   formatted as FAT).
+   formatted as FAT32).
 
 2. For boot from NOR flash (XIP):
    write "dra7xx-hello.bin" file into beginning of NOR flash. It can be done
@@ -73,7 +75,8 @@ Porting
 
 This code can be easily adopted to use with any of OMAP-based SoCs:
  - check include/config.h addresses
- - check UART6_BASE address in src/serial.c
+ - check addresses in src/serial.c
+ - check addresses in src/board.c
  - check clocks setup and pins muxing in src/board.c
    (look into s_init() function in your u-boot for insights)
 
@@ -82,6 +85,5 @@ Credits and licensing
 ---------------------
 
 Project author: Sam Protsenko <joe.skb7@gmail.com>.
-Most of code was borrowed from "u-boot" project, from omapzoom.org (GPLv2).
-Common macros were borrowed from Linux kernel (GPLv2).
-Serial code was borrowed from "omapboot" project (BSD).
+Most of code was borrowed from "u-boot" project, from omapzoom.org (GPLv2),
+so this project license is GPLv2.
